@@ -29,6 +29,10 @@ module Fuel
       @post.is_published ? '' : 'display:none;'
     end
 
+    def tag_links(tags)
+      tags.map{|tag| link_to tag.name.capitalize, tag_path(tag.id) }.join(", ")
+    end
+
     def s3_direct_post
       @s3_direct_post ||= (
         return unless s3_bucket

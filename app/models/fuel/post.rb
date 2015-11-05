@@ -10,7 +10,7 @@ module Fuel
     has_many :tags, through: :taggings
 
     if Rails.version[0].to_i < 4
-      attr_accessible :tag, :author_id, :content, :title, :teaser, :featured_image, :seo_title, :seo_description, :published, :published_at, :format
+      attr_accessible :all_tags, :author_id, :content, :title, :teaser, :featured_image, :seo_title, :seo_description, :published, :published_at, :format
     end
 
     if Fuel.configuration.aws_bucket
@@ -26,6 +26,7 @@ module Fuel
     scope :recent_published_posts, -> { published.recent }
     scope :published, -> { where(published: true) }
     scope :recent, -> { order("published_at DESC").order("created_at DESC") }
+    scope :tagged_with, ->(tag_id) { joins(:taggings).merge(Tagging.where(tag_id: tag_id)) }
 
     module Formats
       MARKDOWN = "markdown"
@@ -86,6 +87,17 @@ module Fuel
 
     def markdown?
       format == Formats::MARKDOWN
+    end
+
+    def all_tags=(names)
+      names.split(",").map do |name|
+        tag = Tag.where(name: name.strip.downcase).first_or_create!
+        tags << tag unless tags.include?(tag)
+      end
+    end
+
+    def all_tags
+      tags.map(&:name).join(", ")
     end
 
   end

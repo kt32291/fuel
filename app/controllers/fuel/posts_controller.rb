@@ -9,7 +9,9 @@ module Fuel
     end
 
     def index
-      @posts = Fuel::Post.recent_published_posts.page(params[:page])
+      posts = Fuel::Post.recent_published_posts
+      posts = posts.tagged_with(params[:tag_id]) if params[:tag_id]
+      @posts = posts.page(params[:page])
       @title = Fuel.configuration.blog_title
       @description = Fuel.configuration.blog_description
     end

@@ -18,8 +18,8 @@
         <%= f.select :author_id, options_from_collection_for_select(Fuel::Author.all, :id, :full_name, @post.author_id) %>
       </div>
       <div class="form-group-half">
-        <%= f.label :tag %>
-        <%= f.select :tag, options_for_select(Fuel.configuration.tags, @post.tag) %>
+        <%= f.label :all_tags %>
+        <%= f.text_field :all_tags, placeholder: "Tags separated with comma", data: { value: @post.all_tags.capitalize } %>
       </div>
     </fieldset>
     <fieldset>
