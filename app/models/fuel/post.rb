@@ -26,7 +26,7 @@ module Fuel
     scope :recent_published_posts, -> { published.recent }
     scope :published, -> { where(published: true) }
     scope :recent, -> { order("published_at DESC").order("created_at DESC") }
-    scope :tagged_with, ->(tag_id) { joins(:taggings).merge(Tagging.where(tag_id: tag_id)) }
+    scope :tagged_with, ->(tag) { joins(:taggings).merge(Tagging.where(tag: tag)) }
 
     module Formats
       MARKDOWN = "markdown"

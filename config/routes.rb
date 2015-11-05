@@ -16,7 +16,7 @@ Fuel::Engine.routes.draw do
       resources :authors
     end
 
-    get '/tags/:tag_id', to: 'posts#index', as: :tag
+    get '/tags/:id', to: 'posts#index', as: :tag
 
     get '/posts'=> 'posts#index'
     resources :posts, only: [:index, :show], path: ''

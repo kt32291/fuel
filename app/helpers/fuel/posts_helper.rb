@@ -30,7 +30,7 @@ module Fuel
     end
 
     def tag_links(tags)
-      tags.map{|tag| link_to tag.name.capitalize, tag_path(tag.id) }.join(", ")
+      tags.map{|tag| link_to tag.name.capitalize, tag_path(tag.slug) }.join(", ")
     end
 
     def s3_direct_post
