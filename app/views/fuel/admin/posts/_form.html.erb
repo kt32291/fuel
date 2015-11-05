@@ -41,6 +41,10 @@
         <%= f.label :format %>
         <%= f.select :format, options_for_select(format_options, selected: f.object.format) %>
       </div>
+      <div class="form-group-half">
+        <%= f.label :post_type %>
+        <%= f.select :post_type, options_for_select(Fuel.configuration.post_types, @post.post_type) %>
+      </div>
     </fieldset>
   </div>
   <div class="form-container--right card">
@@ -49,6 +53,13 @@
       <%= image_tag @post.featured_image.url(:medium) || 'fuel/default-img.jpg' %>
     </div>
     <%= f.file_field :featured_image %>
+  </div>
+  <div class="form-container--right card">
+    <%= f.label :attachment, 'Attachment' %>
+    <% if @post.attachment %>
+      <p class="small"><%= @post.attachment_file_name %></p>
+    <% end %>
+    <%= f.file_field :attachment %>
   </div>
   <div class="form-container--full">
     <fieldset class="editor-area" data-format="html">

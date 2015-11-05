@@ -3,7 +3,7 @@ module Fuel
 
     # What kind of comments do you want to add to your blog ? (:active_record, :disqus or :no)
     attr_accessor :layout, :blog_title, :disqus_name, :twitter, :username, :password, :helpers, :paginates_per,
-        :featured_image_settings, :avatar_settings, :facebook_app_id, :site_name, :blog_description, :tags, :logo, :aws_bucket, :aws_access_key, :aws_secret_access_key, :paperclip_defaults
+        :featured_image_settings, :avatar_settings, :facebook_app_id, :site_name, :blog_description, :tags, :logo, :aws_bucket, :aws_access_key, :aws_secret_access_key, :paperclip_defaults, :post_types
 
     def initialize
       @layout = "application"
@@ -28,6 +28,7 @@ module Fuel
       @facebook_app_id = nil
       @site_name = nil
       @tags = ["Customize", "These", "Options", "In", "config/initializers/fuel.rb"]
+      @post_types = ["Blog", "Library"]
       @logo = "fuel/logo.svg"
       @aws_bucket = nil
       @aws_access_key = nil

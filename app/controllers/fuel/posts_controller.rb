@@ -9,7 +9,11 @@ module Fuel
     end
 
     def index
-      @posts = Fuel::Post.recent_published_posts.page(params[:page])
+      if params[:type]
+        @posts = Fuel::Post.recent_published_posts.try(params[:type]).page(params[:page])
+      else
+        @posts = Fuel::Post.recent_published_posts.page(params[:page])
+      end
       @title = Fuel.configuration.blog_title
       @description = Fuel.configuration.blog_description
     end

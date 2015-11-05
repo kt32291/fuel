@@ -48,6 +48,7 @@ $page-offset:           0 25px 50px 275px;
   @include span-columns(4 of 12);
   @include shift(1 of 12);
   margin-right: 0;
+  margin-bottom: 15px;
 }
 
 .form-container--full {

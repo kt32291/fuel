@@ -15,6 +15,11 @@
     <div class="fuel-post-additional-info">
       <span class="fuel_post_date"><%= @post.created_at.strftime('%b %d, %Y') %> - </span>
       <span class="fuel-post-author">By <%= @post.author.full_name %></span>
+      <% if @post.attachment %>
+        <div class="fuel_attachment">
+          <%= link_to @post.attachment_file_name, @post.attachment.url, download: @post.attachment_file_name %>
+        </div>
+      <% end %>
       <span class="fuel-social-buttons">
         <%= render 'tweet', post: @post if Fuel.configuration.twitter %>
       </span>

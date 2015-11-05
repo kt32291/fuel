@@ -8,15 +8,17 @@ module Fuel
     belongs_to :author
 
     if Rails.version[0].to_i < 4
-      attr_accessible :tag, :author_id, :content, :title, :teaser, :featured_image, :seo_title, :seo_description, :published, :published_at, :format
+      attr_accessible :tag, :author_id, :content, :title, :teaser, :featured_image, :seo_title, :seo_description, :published, :published_at, :format, :post_type
     end
 
     if Fuel.configuration.aws_bucket
       has_attached_file :featured_image, :styles => { :medium => Fuel.configuration.featured_image_settings[:styles][:medium], :thumb => Fuel.configuration.featured_image_settings[:styles][:thumb] }, :default_url => "fuel/default-img.jpg", :storage => :s3, :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
+      has_attached_file :attachment, :storage => :s3, :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
     else
       has_attached_file :featured_image, :styles => { :medium => Fuel.configuration.featured_image_settings[:styles][:medium], :thumb => Fuel.configuration.featured_image_settings[:styles][:thumb] }, :default_url => "fuel/default-img.jpg"
     end
     validates_attachment_content_type :featured_image, :content_type => /\Aimage\/.*\Z/
+    validates_attachment_content_type :attachment, :content_type => %w{application/zip application/pdf application/msword text/plain}
 
     validates_presence_of :title, :content, :author_id, :published_at, if: :is_published
     paginates_per Fuel.configuration.paginates_per.to_i
@@ -24,6 +26,9 @@ module Fuel
     scope :recent_published_posts, -> { published.recent }
     scope :published, -> { where(published: true) }
     scope :recent, -> { order("published_at DESC").order("created_at DESC") }
+    Fuel.configuration.post_types.each do |post_type|
+      scope post_type.downcase, -> { where(post_type: post_type) }
+    end
 
     module Formats
       MARKDOWN = "markdown"
