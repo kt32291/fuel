@@ -6,6 +6,8 @@ module Fuel
     friendly_id :title, use: :slugged
 
     belongs_to :author
+    has_many :taggings
+    has_many :tags, through: :taggings
 
     if Rails.version[0].to_i < 4
       attr_accessible :tag, :author_id, :content, :title, :teaser, :featured_image, :seo_title, :seo_description, :published, :published_at, :format
